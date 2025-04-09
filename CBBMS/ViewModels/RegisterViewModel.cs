@@ -4,15 +4,6 @@ namespace CBBMS.ViewModels
 {
     public class RegisterViewModel
     {
-        [Required]
-        public string FullName { get; set; }
-
-        [Required]
-        public string City { get; set; }
-
-        [Required]
-        public string BloodType { get; set; } 
-
         [Required, EmailAddress]
         public string Email { get; set; }
 
@@ -22,5 +13,8 @@ namespace CBBMS.ViewModels
         [DataType(DataType.Password)]
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
+        [Required]
+        [Display(Name = "Account Type")]
+        public string RoleType { get; set; } // Donor / Hospital / BloodBank
     }
 }

@@ -10,11 +10,11 @@ namespace CBBMS.Data
             : base(options)
         {
         }
-
+        public DbSet<Donor> Donors { get; set; }
         public DbSet<DonationRequest> DonationRequests { get; set; }
-        public DbSet<BloodRequest> BloodRequests { get; set; }
+        public DbSet<HospitalRequest> HospitalRequests { get; set; }
         public DbSet<Hospital> Hospitals { get; set; }
         public DbSet<BloodBank> BloodBanks { get; set; }
-        public DbSet<BloodStock> BloodStocks { get; set; }
+        public DbSet<BloodStockUnits> BloodStockUnits { get; set; }
     }
 }

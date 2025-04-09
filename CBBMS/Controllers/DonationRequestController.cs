@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CBBMS.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Donor")]
     public class DonationRequestController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -23,7 +23,7 @@ namespace CBBMS.Controllers
         [HttpGet]
         public IActionResult Donate()
         {
-            ViewBag.BloodBanks = new SelectList(_context.BloodBanks.ToList(), "Id", "Name");
+            ViewBag.BloodBanks = new SelectList(_context.BloodBanks.ToList(), "Id", "FullName");
             return View();
         }
 
@@ -39,8 +39,9 @@ namespace CBBMS.Controllers
 
             var user = await _userManager.GetUserAsync(User);
             var selectedBank = _context.BloodBanks.FirstOrDefault(b => b.Id == model.BloodBankId);
+            var donor = _context.Donors.Find(user.Id);
 
-            if (user == null || selectedBank == null)
+            if (user == null || selectedBank == null || donor == null)
             {
                 return NotFound();
             }
@@ -48,9 +49,9 @@ namespace CBBMS.Controllers
             var donation = new DonationRequest
             {
                 DonorId = user.Id,
-                BloodType = user.BloodType,
                 BloodBankId = selectedBank.Id,
-                DonationDate = DateTime.Now,
+                BloodType = donor.BloodType,
+                DonationDate = DateTime.UtcNow
             };
             
             _context.DonationRequests.Add(donation);

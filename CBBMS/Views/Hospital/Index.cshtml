@@ -1,0 +1,20 @@
+﻿@model CBBMS.Models.Hospital
+@{
+    ViewData["Title"] = "My Hospital";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-lg rounded">
+        <div class="card-header bg-primary text-white">
+            <h3>Hospital Info</h3>
+        </div>
+        <div class="card-body">
+            <p><strong>Name:</strong> </p>
+            <p><strong>Address:</strong> @Model.City</p>
+        </div>
+        <div class="card-footer">
+            <a asp-action="Edit" class="btn btn-warning">Edit</a>
+            <a asp-action="Details" class="btn btn-info">View Details</a>
+        </div>
+    </div>
+</div>

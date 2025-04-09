@@ -91,10 +91,8 @@ namespace CBBMS.Areas.Identity.Pages.Account
                 var user = CreateUser();
 
                 // Set custom fields
-                user.FullName = Input.FullName;
-                user.City = Input.City;
-                user.BloodType = Input.BloodType;
-                user.CanDonate = true;
+                //user.FullName = Input.FullName;
+               
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 //await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);

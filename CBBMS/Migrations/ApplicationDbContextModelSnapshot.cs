@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace CBBMS.Data.Migrations
+namespace CBBMS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -30,19 +30,6 @@ namespace CBBMS.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("BloodType")
-                        .IsRequired()
-                        .HasMaxLength(5)
-                        .HasColumnType("nvarchar(5)");
-
-                    b.Property<bool>("CanDonate")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -53,11 +40,6 @@ namespace CBBMS.Data.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -81,6 +63,11 @@ namespace CBBMS.Data.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("RoleType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -107,32 +94,33 @@ namespace CBBMS.Data.Migrations
 
             modelBuilder.Entity("CBBMS.Models.BloodBank", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("City")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
-                    b.Property<string>("Email")
+                    b.Property<string>("FullName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ManagerId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ManagerId");
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("BloodBanks");
                 });
 
-            modelBuilder.Entity("CBBMS.Models.BloodRequest", b =>
+            modelBuilder.Entity("CBBMS.Models.BloodStockUnits", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -140,49 +128,13 @@ namespace CBBMS.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("BloodType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("HospitalId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("PatientStatus")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Quantity")
+                    b.Property<int?>("BloodBankId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("RequestDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("HospitalId");
-
-                    b.ToTable("BloodRequests");
-                });
-
-            modelBuilder.Entity("CBBMS.Models.BloodStock", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BloodBankId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("BloodBankId1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("BloodType")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(5)
+                        .HasColumnType("nvarchar(5)");
 
                     b.Property<DateTime>("DonationDate")
                         .HasColumnType("datetime2");
@@ -195,9 +147,9 @@ namespace CBBMS.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BloodBankId1");
+                    b.HasIndex("BloodBankId");
 
-                    b.ToTable("BloodStocks");
+                    b.ToTable("BloodStockUnits");
                 });
 
             modelBuilder.Entity("CBBMS.Models.DonationRequest", b =>
@@ -208,25 +160,22 @@ namespace CBBMS.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("BloodBankId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("BloodBankId")
+                        .HasColumnType("int");
 
                     b.Property<string>("BloodType")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DonationDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DonorId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsAccepted")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("VirusTestResult")
+                    b.Property<bool>("VirusTestResult")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
@@ -238,31 +187,99 @@ namespace CBBMS.Data.Migrations
                     b.ToTable("DonationRequests");
                 });
 
+            modelBuilder.Entity("CBBMS.Models.Donor", b =>
+                {
+                    b.Property<string>("DonorId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("BloodType")
+                        .IsRequired()
+                        .HasMaxLength(5)
+                        .HasColumnType("nvarchar(5)");
+
+                    b.Property<bool>("CanDonate")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("NationalID")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("DonorId");
+
+                    b.ToTable("Donors");
+                });
+
             modelBuilder.Entity("CBBMS.Models.Hospital", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("City")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ManagerId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ManagerId");
+                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Hospitals");
+                });
+
+            modelBuilder.Entity("CBBMS.Models.HospitalRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BloodType")
+                        .IsRequired()
+                        .HasMaxLength(5)
+                        .HasColumnType("nvarchar(5)");
+
+                    b.Property<int>("HospitalId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PatientStatus")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("RequestDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HospitalId");
+
+                    b.ToTable("HospitalRequests");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -400,33 +417,18 @@ namespace CBBMS.Data.Migrations
 
             modelBuilder.Entity("CBBMS.Models.BloodBank", b =>
                 {
-                    b.HasOne("CBBMS.Models.ApplicationUser", "Manager")
+                    b.HasOne("CBBMS.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("ManagerId");
+                        .HasForeignKey("ApplicationUserId");
 
-                    b.Navigation("Manager");
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("CBBMS.Models.BloodRequest", b =>
+            modelBuilder.Entity("CBBMS.Models.BloodStockUnits", b =>
                 {
-                    b.HasOne("CBBMS.Models.Hospital", "Hospital")
-                        .WithMany()
-                        .HasForeignKey("HospitalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Hospital");
-                });
-
-            modelBuilder.Entity("CBBMS.Models.BloodStock", b =>
-                {
-                    b.HasOne("CBBMS.Models.BloodBank", "BloodBank")
-                        .WithMany()
-                        .HasForeignKey("BloodBankId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("BloodBank");
+                    b.HasOne("CBBMS.Models.BloodBank", null)
+                        .WithMany("BloodStockUnits")
+                        .HasForeignKey("BloodBankId");
                 });
 
             modelBuilder.Entity("CBBMS.Models.DonationRequest", b =>
@@ -437,24 +439,44 @@ namespace CBBMS.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CBBMS.Models.ApplicationUser", "Donor")
+                    b.HasOne("CBBMS.Models.Donor", "Donor")
                         .WithMany("Donations")
-                        .HasForeignKey("DonorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DonorId");
 
                     b.Navigation("BloodBank");
 
                     b.Navigation("Donor");
                 });
 
+            modelBuilder.Entity("CBBMS.Models.Donor", b =>
+                {
+                    b.HasOne("CBBMS.Models.ApplicationUser", "User")
+                        .WithOne("Donor")
+                        .HasForeignKey("CBBMS.Models.Donor", "DonorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("CBBMS.Models.Hospital", b =>
                 {
-                    b.HasOne("CBBMS.Models.ApplicationUser", "Manager")
+                    b.HasOne("CBBMS.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("ManagerId");
+                        .HasForeignKey("ApplicationUserId");
 
-                    b.Navigation("Manager");
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("CBBMS.Models.HospitalRequest", b =>
+                {
+                    b.HasOne("CBBMS.Models.Hospital", "Hospital")
+                        .WithMany("HospitalRequests")
+                        .HasForeignKey("HospitalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Hospital");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -510,7 +532,22 @@ namespace CBBMS.Data.Migrations
 
             modelBuilder.Entity("CBBMS.Models.ApplicationUser", b =>
                 {
+                    b.Navigation("Donor");
+                });
+
+            modelBuilder.Entity("CBBMS.Models.BloodBank", b =>
+                {
+                    b.Navigation("BloodStockUnits");
+                });
+
+            modelBuilder.Entity("CBBMS.Models.Donor", b =>
+                {
                     b.Navigation("Donations");
+                });
+
+            modelBuilder.Entity("CBBMS.Models.Hospital", b =>
+                {
+                    b.Navigation("HospitalRequests");
                 });
 #pragma warning restore 612, 618
         }

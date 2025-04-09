@@ -2,6 +2,6 @@
 {
     public class DonationRequestViewModel
     {
-        public string BloodBankId { get; set; }
+        public int BloodBankId { get; set; }
     }
 }
