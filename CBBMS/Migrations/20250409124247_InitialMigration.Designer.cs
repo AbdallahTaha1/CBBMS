@@ -4,6 +4,7 @@ using CBBMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CBBMS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250409124247_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -165,7 +168,7 @@ namespace CBBMS.Migrations
                     b.Property<string>("DonorId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<bool?>("IsAccepted")
+                    b.Property<bool>("IsAccepted")
                         .HasColumnType("bit");
 
                     b.Property<bool>("VirusTestResult")
@@ -223,7 +226,7 @@ namespace CBBMS.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<string>("FullName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -259,10 +262,6 @@ namespace CBBMS.Migrations
 
                     b.Property<DateTime>("RequestDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Status")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
@@ -417,11 +416,9 @@ namespace CBBMS.Migrations
 
             modelBuilder.Entity("CBBMS.Models.BloodStockUnits", b =>
                 {
-                    b.HasOne("CBBMS.Models.BloodBank", "BloodBank")
+                    b.HasOne("CBBMS.Models.BloodBank", null)
                         .WithMany("BloodStockUnits")
                         .HasForeignKey("BloodBankId");
-
-                    b.Navigation("BloodBank");
                 });
 
             modelBuilder.Entity("CBBMS.Models.DonationRequest", b =>

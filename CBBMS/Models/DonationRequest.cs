@@ -11,13 +11,13 @@ namespace CBBMS.Models
         public string BloodType { get; set; }
         public DateTime DonationDate { get; set; }
         public bool VirusTestResult { get; set; }
-        public bool IsAccepted { get; set; } = false;
+        public bool? IsAccepted { get; set; }
 
         public string DonorId { get; set; }
         [ForeignKey("DonorId")]
         public Donor Donor { get; set; }
         [Required]
-        public int BloodBankId { get; set; }  // FK to BloodBank
+        public string BloodBankId { get; set; }  // FK to BloodBank
 
         [ForeignKey("BloodBankId")]
         public BloodBank BloodBank { get; set; }

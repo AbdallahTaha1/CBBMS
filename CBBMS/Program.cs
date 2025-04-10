@@ -1,6 +1,8 @@
 using CBBMS.Data;
 using CBBMS.Models;
+using CBBMS.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace CBBMS
@@ -12,6 +14,9 @@ namespace CBBMS
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddScoped<IDonorService, DonorService>();
+            builder.Services.AddScoped<IBloodBankService, BloodBankService>();
+            builder.Services.AddScoped<IHospitalService, HospitalService>();
             builder.Services.AddRazorPages();
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
                                             ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");

@@ -6,16 +6,14 @@ namespace CBBMS.Models
 {
     public class Hospital
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        [Key, ForeignKey("User")]
+        public string HospitalId { get; set; }
         [Required]
         [MaxLength(100)]
-        public string Name { get; set; }
+        public string FullName { get; set; }
         [Required]
         [MaxLength(20)]
         public string City { get; set; }
-        public string ApplicationUserId { get; set; }
-        [ForeignKey(nameof(ApplicationUserId))]
         public ApplicationUser User { get; set; }
         public ICollection<HospitalRequest> HospitalRequests { get; set; }
     }

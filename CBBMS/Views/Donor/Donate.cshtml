@@ -1,0 +1,23 @@
+﻿@model DonationRequestViewModel
+
+@{
+    ViewData["Title"] = "Donate Blood";
+}
+
+<h2 class="text-center mb-4">Donate Blood</h2>
+
+<form method="post" class="w-50 mx-auto shadow p-4 rounded bg-light">
+    <div class="form-group mb-3">
+        <label asp-for="BloodBankId" class="form-label">Select Blood Bank</label>
+        <select asp-for="BloodBankId" class="form-select" asp-items="Model?.BloodBanks">
+            <option value="">-- Select a Blood Bank --</option>
+        </select>
+        <span asp-validation-for="BloodBankId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Submit Donation</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

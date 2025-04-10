@@ -1,0 +1,59 @@
+﻿@model IEnumerable<DonationRequest>
+
+@{
+    ViewData["Title"] = "My Donations";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">My Blood Donations</h2>
+    
+    <div class="text-center mt-4">
+        <a asp-action="Donate" class="btn btn-primary btn-lg">
+            + Make a New Donation
+        </a>
+    </div>
+
+    @if (Model.Any())
+    {
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Blood Bank</th>
+                    <th>Blood Type</th>
+                    <th>Donation Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var donation in Model)
+                {
+                    <tr>
+                        <td>@donation.BloodBank.FullName</td> 
+                        <td>@donation.BloodType</td>
+                        <td>@donation.DonationDate.ToString("dd/MM/yyyy")</td>
+                        <td>
+                            @if (donation.IsAccepted == null)
+                            {
+                                <span class="badge bg-warning text-dark">Pending</span>
+                            }
+                            else if (donation.IsAccepted == true)
+                            {
+                                <span class="badge bg-success">Accepted</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Rejected</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info text-center" role="alert">
+            You have not made any donation requests yet.
+        </div>
+    }
+</div>

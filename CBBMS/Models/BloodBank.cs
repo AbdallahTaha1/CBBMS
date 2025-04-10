@@ -5,19 +5,17 @@ namespace CBBMS.Models
 {
     public class BloodBank
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        [Key, ForeignKey("User")]
+        public string BloodBankId { get; set; }
 
-        [Required]
-        [StringLength(100)]
+        [Required, StringLength(100)]
         public string FullName { get; set; }
 
-        [Required]
-        [MaxLength(20)]
+        [Required, StringLength(20)]
         public string City { get; set; }
-        public string ApplicationUserId { get; set; }
-        [ForeignKey(nameof(ApplicationUserId))]
+        
         public ApplicationUser User { get; set; }
+
         public ICollection<BloodStockUnits> BloodStockUnits { get; set; }
 
     }

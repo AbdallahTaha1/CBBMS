@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Blood Bank Dashboard";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Blood Bank Dashboard</h2>
+
+    <div class="row">
+        <!-- Card: Manage Donations -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-lg h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Manage Donations</h5>
+                    <p class="card-text">View, Accept, or Reject blood donations based on test results.</p>
+                    <a asp-action="Donations" asp-controller="BloodBank" class="btn btn-primary">Manage Donations</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card: View Blood Stock -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-lg h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Blood Stock</h5>
+                    <p class="card-text">View and monitor available blood bags in stock.</p>
+                    <a asp-action="BloodStock" asp-controller="BloodBank" class="btn btn-success">View Stock</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card: View Hospital Requests -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-lg h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Hospital Requests</h5>
+                    <p class="card-text">View blood requests submitted by hospitals.</p>
+                    <a asp-action="HospitalRequests" asp-controller="BloodBank" class="btn btn-danger">View Requests</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

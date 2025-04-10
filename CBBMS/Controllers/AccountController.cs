@@ -51,7 +51,7 @@ namespace CBBMS.Controllers
                 else if (model.RoleType == "BloodBank")
                     return RedirectToAction("CompleteBloodBankProfile");
                 else 
-                    return RedirectToAction("CompleteDonorProfile");
+                    return RedirectToAction("CompleteHospitalProfile");
             }
 
             foreach (var error in result.Errors)
@@ -100,12 +100,36 @@ namespace CBBMS.Controllers
             {
                 FullName = model.FullName,
                 City = model.City,
-                ApplicationUserId = user.Id
+                BloodBankId = user.Id
             };
 
             await _context.BloodBanks.AddAsync(bloodBank);
             _context.SaveChanges();
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult CompleteHospitalProfile()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> CompleteHospitalProfile(CompleteHospitalViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = await _userManager.GetUserAsync(User);
+
+            var hospital = new Hospital
+            {
+                FullName = model.FullName,
+                City = model.City,
+                HospitalId = user.Id
+            };
+
+            await _context.Hospitals.AddAsync(hospital);
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Hospital");
         }
 
         [HttpGet]

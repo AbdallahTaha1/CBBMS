@@ -15,6 +15,11 @@ namespace CBBMS.Models
 
         public DateTime ExpiryDate { get; set; } 
 
-        public bool IsAvailable { get; set; } 
+        public bool IsAvailable { get; set; }
+
+        public string BloodBankId { get; set; }  // FK to BloodBank
+
+        [ForeignKey("BloodBankId")]
+        public BloodBank BloodBank { get; set; }
     }
 }

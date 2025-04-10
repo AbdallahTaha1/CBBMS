@@ -1,77 +1,63 @@
 ﻿using CBBMS.Data;
 using CBBMS.Models;
+using CBBMS.Services;
+using CBBMS.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace CBBMS.Controllers
 {
     [Authorize(Roles = "Hospital")]
     public class HospitalController : Controller
     {
-        private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IHospitalService _hospitalService;
 
-        public HospitalController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public HospitalController(UserManager<ApplicationUser> userManager, IHospitalService hospitalService)
         {
-            _context = context;
             _userManager = userManager;
+            _hospitalService = hospitalService;
         }
 
-        //private async Task<Hospital> GetCurrentUserHospitalAsync()
-        //{
-        //    var user = await _userManager.GetUserAsync(User);
-        //    return await _context.Hospitals.FirstOrDefaultAsync(h => h.Id == user.HospitalId);
-        //}
 
-        //public async Task<IActionResult> Index()
-        //{
-        //    var user = await _userManager.GetUserAsync(User);
-        //    var hospital = await _context.Hospitals
-        //        .Include(h => h.BloodRequests)
-        //        .FirstOrDefaultAsync(h => h.ManagerId == user.Id);
-
-        //    if (hospital == null)
-        //        return NotFound();
-
-        //    return View(hospital);
-        //}
-
-        //public async Task<IActionResult> Edit()
-        //{
-        //    var hospital = await GetCurrentUserHospitalAsync();
-        //    if (hospital == null)
-        //        return NotFound();
-        //    return View(hospital);
-        //}
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Hospital hospital)
+        public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
-            string existingHospital = null;// await _context.Hospitals.FirstOrDefaultAsync(h => h.Id == user.Id);
+            var hospital = await _hospitalService.GetHospitalByUserAsync(user.Id);
 
-            if (existingHospital == null)
-                return NotFound();
+            if (hospital == null) return NotFound();
 
-            if (ModelState.IsValid)
-            {
-                //existingHospital.City = hospital.City;
-                _context.Update(existingHospital);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
             return View(hospital);
         }
+      
 
-        //public async Task<IActionResult> Details()
-        //{
-        //    var hospital = await GetCurrentUserHospitalAsync();
-        //    if (hospital == null)
-        //        return NotFound();
-        //    return View(hospital);
-        //}
+        public IActionResult CreateRequest()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateRequest(HospitalRequestViewModel model)
+        {
+            if (!ModelState.IsValid) return View();
+
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null) return NotFound();
+
+            var request = new HospitalRequest()
+            {
+                BloodType = model.BloodType,
+                PatientStatus = model.PatientStatus,
+                Quantity = model.Quantity,
+                RequestDate = DateTime.Now,
+                HospitalId = user.Id
+            };
+
+            await _hospitalService.CreateHospitalRequestAsync(request);
+
+            return RedirectToAction("Index", "Hospital");
+        }
     }
 }

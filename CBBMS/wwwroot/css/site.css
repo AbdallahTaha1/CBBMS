@@ -20,3 +20,10 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.background-img {
+  background-image: url('/images/background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
