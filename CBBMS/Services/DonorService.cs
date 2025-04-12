@@ -49,5 +49,13 @@ namespace CBBMS.Services
             await _context.DonationRequests.AddAsync(donation);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<DonationRequest> GetLastAcceptedDonation(string UserId)
+        {
+            return await _context.DonationRequests
+                .Where(d => d.DonorId == UserId && d.IsAccepted == true)
+                .OrderByDescending(d => d.DonationDate)
+                .FirstOrDefaultAsync();
+        }
     }
 }

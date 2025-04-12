@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CBBMS.Controllers
 {
@@ -50,6 +51,7 @@ namespace CBBMS.Controllers
         {
             if (!ModelState.IsValid)
             {
+                model.BloodBanks = await _donorService.GetBloodBanksAsync();
                 return View(model);
             }
 
@@ -59,6 +61,25 @@ namespace CBBMS.Controllers
             if (user == null || model.BloodBankId== null || donor == null)
             {
                 return NotFound();
+            }
+
+            if(donor.CanDonate ==  false)
+            {
+                ModelState.AddModelError("", "You cannot Donate because of your virus test results");
+                model.BloodBanks = await _donorService.GetBloodBanksAsync();
+                return View(model);
+            }
+            var lastAcceptedDonation = await _donorService.GetLastAcceptedDonation(user.Id);
+
+            if (lastAcceptedDonation != null)
+            {
+                var timeSinceLastDonation = DateTime.UtcNow - lastAcceptedDonation.DonationDate;
+                if (timeSinceLastDonation.TotalDays < 90)
+                {
+                    ModelState.AddModelError("", "You must wait at least 3 months between donations.");
+                    model.BloodBanks = await _donorService.GetBloodBanksAsync();
+                    return View(model);
+                }
             }
 
             var donation = new DonationRequest

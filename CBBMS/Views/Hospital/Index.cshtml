@@ -13,7 +13,7 @@
             <p><strong>Address:</strong> @Model.City</p>
         </div>
         <div class="card-footer">
-            <a asp-action="Edit" class="btn btn-warning">Edit</a>
+            <a class="btn btn-warning">Edit</a>
         </div>
     </div>
 </div>
@@ -22,7 +22,7 @@
 <div class="container mt-5">
     <div class="d-flex justify-content-between mb-4">
         <h2>My Blood Requests</h2>
-        <a asp-action="CreateRequest" asp-controller="HospitalRequest" class="btn btn-success rounded">+ Add New Request</a>
+        <a asp-action="CreateRequest" asp-controller="Hospital" class="btn btn-success rounded">+ Add New Request</a>
     </div>
 
     @if (Model.HospitalRequests != null && Model.HospitalRequests.Any())
@@ -34,7 +34,9 @@
                     <th>Patient Status</th>
                     <th>Quantity</th>
                     <th>Request Date</th>
+                    <th>Status</th>
                     <th>Actions</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -45,12 +47,14 @@
                         <td>@request.PatientStatus</td>
                         <td>@request.Quantity</td>
                         <td>@request.RequestDate.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>@request.Status</td>
                         <td>
                             <div class="btn-group" role="group">
-                                <a asp-action="Edit" asp-route-id="@request.Id" class="btn btn-sm btn-warning">Edit</a>
-                                <a asp-action="Delete" asp-route-id="@request.Id" class="btn btn-sm btn-danger ms-2">Delete</a>
+                                <a class="btn btn-sm btn-warning">Edit</a>
+                                <a  class="btn btn-sm btn-danger ms-2">Delete</a>
                             </div>
                         </td>
+
                     </tr>
                 }
             </tbody>

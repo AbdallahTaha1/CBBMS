@@ -10,5 +10,6 @@ namespace CBBMS.Services
         Task<BloodBank> GetBloodBankByIdAsync(string bloodBankId);
         Task<List<SelectListItem>> GetBloodBanksAsync();
         Task<Donor> GetDonorByUserIdAsync(string userId);
+        Task<DonationRequest> GetLastAcceptedDonation(string UserId);
     }
 }

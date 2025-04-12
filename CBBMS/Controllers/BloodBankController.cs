@@ -47,8 +47,8 @@ namespace CBBMS.Controllers
 
             return RedirectToAction(nameof(Donations));
         }
-
-        public async Task<IActionResult> RejectDonations(int Id)
+        
+        public async Task<IActionResult> RejectDonation(int Id)
         {
             var result = await _bloodBankService.RejectDonationAsync(Id);
 
