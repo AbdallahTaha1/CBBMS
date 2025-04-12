@@ -1,10 +1,3 @@
-Great! Based on your project file (`CBBMS.zip`) and everything we've discussed (roles for Hospital, Donor, Blood Bank; donation logic; request approval; etc.), here's a sample `README.md` file that you can add to your GitHub repository:
-
----
-
-### ✅ `README.md`
-
-```markdown
 # 🩸 CBBMS - Centralized Blood Bank Management System
 
 CBBMS is a web-based system built with ASP.NET Core that enables the coordination between donors, hospitals, and blood banks. The platform streamlines the blood donation process, hospital blood requests, and stock management within blood banks.
